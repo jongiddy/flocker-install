@@ -5,7 +5,7 @@ set -e -x
 # Extract main version number
 # 3.11.10-301.fc20.x86_64 -> 3.11.10
 KERNEL_VERSION=`expr match "$(uname -r)" '\([0-9.]*\)'`
-KERNEL_PARTS=$(echo ${KERNEL_VERSION} | tr "." "\n")
+KERNEL_PARTS=($(echo ${KERNEL_VERSION} | tr "." "\n"))
 
 # Need kernel >= 3.16.4
 upgrade=
