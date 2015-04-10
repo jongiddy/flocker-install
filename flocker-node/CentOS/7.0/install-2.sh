@@ -21,4 +21,6 @@ sudo truncate --size 10G /var/opt/flocker/pool-vdev
 sudo zpool create flocker /var/opt/flocker/pool-vdev
 
 # Allow Flocker client access to root account
+sudo mkdir -p ~root/.ssh
+sudo chmod 700 ~root/.ssh
 sudo cp ~/.ssh/authorized_keys ~root/.ssh/authorized_keys
