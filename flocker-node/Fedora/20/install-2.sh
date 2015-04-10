@@ -3,8 +3,9 @@
 set -e -x
 
 # Add ClusterHQ and recent ZFS and Docker repositories
-sudo yum install -y https://s3.amazonaws.com/archive.zfsonlinux.org/fedora/zfs-release$(rpm -E %dist).noarch.rpm
-sudo yum install -y https://s3.amazonaws.com/clusterhq-archive/fedora/clusterhq-release$(rpm -E %dist).noarch.rpm
+# Ignore status, as it may be yum having nothing to do if repo was installed previously.
+sudo yum install -y https://s3.amazonaws.com/archive.zfsonlinux.org/fedora/zfs-release$(rpm -E %dist).noarch.rpm || true
+sudo yum install -y https://s3.amazonaws.com/clusterhq-archive/fedora/clusterhq-release$(rpm -E %dist).noarch.rpm || true
 
 # Add ClusterHQ packages
 sudo yum install -y clusterhq-flocker-node
