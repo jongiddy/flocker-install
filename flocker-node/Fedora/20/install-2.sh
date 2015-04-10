@@ -13,3 +13,11 @@ sudo yum install -y clusterhq-flocker-node
 # Start Docker service
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
+
+# Create ZFS flocker pool
+sudo mkdir -p /var/opt/flocker
+sudo truncate --size 10G /var/opt/flocker/pool-vdev
+sudo zpool create flocker /var/opt/flocker/pool-vdev
+
+# Allow Flocker client access to root account
+sudo cp ~/.ssh/authorized_keys ~root/.ssh/authorized_keys
