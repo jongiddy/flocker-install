@@ -8,6 +8,6 @@ sudo add-apt-repository -y 'deb http://build.clusterhq.com/results/omnibus/maste
 sudo apt-get update
 
 # Unauthenticated packages need --force-yes
-sudo apt-get -y --force-yes install clusterhq-python-flocker clusterhq-flocker-cli
+sudo apt-get -y --force-yes install clusterhq-flocker-cli
 
 echo "Flocker CLI ${version} installed."
