@@ -1,0 +1,12 @@
+VAGRANTFILE_API_VERSION = "2"
+
+unless Vagrant.has_plugin?("vagrant-reload")
+  print "Run the command 'vagrant plugin install vagrant-reload' first.\n"
+  exit 1
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.provision :shell, :path => "install-1.sh", :privileged => false
+end
