@@ -1,14 +1,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
-unless Vagrant.has_plugin?("vagrant-reload")
-  print "Run the command 'vagrant plugin install vagrant-reload' first.\n"
-  exit 1
-end
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.network "private_network", type: "dhcp"
-  config.vm.provision :shell, :path => "install-1.sh", :privileged => false
+
+  # Disable /vagrant - not needed and expensive rsync with AWS
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider :aws do |aws, override|
     # Use a dummy box and specify everything here in Vagrantfile
@@ -24,12 +21,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.ssh.private_key_path = ENV["AWS_KEYPAIR_KEY_FILE"]
 
     # AWS machine description
-    aws.ami = "ami-29ebb519"  # ubuntu-trusty-14.04-amd64-server-20150123
     aws.region = "us-west-2"
     aws.instance_type = "m3.medium"
     aws.security_groups = [ENV["AWS_SECURITY_GROUP"]]
-    override.ssh.username = "ubuntu"
 
+    aws.ami = "ami-29ebb519"  # ubuntu-trusty-14.04-amd64-server-20150123
+    override.ssh.username = "ubuntu"
     aws.tags = {"Name" => "Flocker Node (Ubuntu)"}
   end
+
+  config.vm.provision :shell, :path => "install-1.sh", :privileged => false
 end

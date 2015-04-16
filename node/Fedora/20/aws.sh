@@ -13,11 +13,13 @@ tmpdir=/tmp/flocker.$$
 mkdir ${tmpdir}
 
 cp install-1.sh ${tmpdir}/install-1.sh
+cp install-2.sh ${tmpdir}/install-2.sh
 cp Vagrantfile ${tmpdir}/Vagrantfile
 
 cd ${tmpdir}
 
 vagrant plugin install vagrant-aws
+vagrant plugin install vagrant-reload
 
 vagrant up --provider=aws
 
