@@ -7,6 +7,6 @@ set -e -x
 sudo yum install -y https://s3.amazonaws.com/clusterhq-archive/centos/clusterhq-release$(rpm -E %dist).noarch.rpm || true
 
 # Add ClusterHQ packages
-sudo yum -y install clusterhq-python-flocker clusterhq-flocker-cli
+sudo yum -y install clusterhq-flocker-cli
 
 echo "Flocker CLI ${version} installed."
