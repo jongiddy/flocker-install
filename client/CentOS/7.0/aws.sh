@@ -17,9 +17,9 @@ cd ${tmpdir}
 
 vagrant plugin install vagrant-aws
 
-vagrant up --provider=aws
+FLOCKER_REPO="$1" vagrant up --provider=aws
 
-vagrant ssh
+vagrant ssh || true
 
 vagrant destroy --force
 

@@ -40,5 +40,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.tags = {"Name" => "Flocker CLI (Fedora)"}
   end
 
-  config.vm.provision :shell, :path => "install-1.sh", :privileged => false
+  config.vm.provision :shell, :path => "install-1.sh", :args => ENV['FLOCKER_REPO'], :privileged => false
 end
