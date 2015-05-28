@@ -13,14 +13,14 @@ It is simplest to run a client locally, using `local/pip.sh`.
 Once this is installed, run:
 
 ```
-cd flocker-client
+PATH=`pwd`/flocker-client:${PATH}
 
-./bin/flocker-ca initialize mycluster
+flocker-ca initialize mycluster
 
 CONTROL_HOST=<CONTROL-SERVICE-HOST>
 CONTROL_USER=<CONTROL-SERVICE-USER>
 
-./bin/flocker-ca create-control-certificate ${CONTROL_HOST}
+flocker-ca create-control-certificate ${CONTROL_HOST}
 scp cluster.crt ${CONTROL_USER}@${CONTROL_HOST}:cluster.crt
 scp control-${CONTROL_HOST}.crt ${CONTROL_USER}@${CONTROL_HOST}:control.crt
 scp control-${CONTROL_HOST}.key ${CONTROL_USER}@${CONTROL_HOST}:control.key
@@ -41,7 +41,7 @@ For each agent node, locally run:
 NODE_HOST=<NODE-SERVICE-HOST>
 NODE_USER=<NODE-SERVICE-USER>
 
-./bin/flocker-ca create-node-certificate
+flocker-ca create-node-certificate
 scp cluster.crt ${NODE_USER}@${NODE_HOST}:cluster.crt
 scp ${NODE_UUID}.crt ${NODE_USER}@${NODE_HOST}:node.crt
 scp ${NODE_UUID}.key ${NODE_USER}@${NODE_HOST}:node.key
@@ -53,3 +53,8 @@ On each node, run:
 install-node.sh <CONTROL-SERVICE-HOST> [ <BACKEND> ] [ <BRANCH> ]
 ```
 
+On the client, edit `run_tests.sh` to include the IP's of nodes and run:
+```
+flocker-ca create-api-certificate user
+./run_tests.sh
+```
