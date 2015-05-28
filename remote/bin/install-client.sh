@@ -55,6 +55,27 @@ EOF
 	# Unauthenticated packages need --force-yes
 	sudo apt-get -y --force-yes install clusterhq-flocker-cli
 	;;
+ubuntu-15.04)
+	# Add ClusterHQ repository
+	sudo apt-get -y install apt-transport-https software-properties-common
+	sudo add-apt-repository -y 'deb https://clusterhq-archive.s3.amazonaws.com/ubuntu-testing/14.04/$(ARCH) /'
+
+	if [ "${FLOCKER_BRANCH}" ]; then
+		BUILDBOT_REPO=http://build.clusterhq.com/results/omnibus/${FLOCKER_BRANCH}/${OPSYS}
+		sudo add-apt-repository -y "deb ${BUILDBOT_REPO} /"
+		cat > /tmp/apt-pref <<EOF
+Package:  *
+Pin: origin build.clusterhq.com
+Pin-Priority: 900
+EOF
+		sudo mv /tmp/apt-pref /etc/apt/preferences.d/buildbot-900
+	fi
+
+	sudo apt-get update
+
+	# Unauthenticated packages need --force-yes
+	sudo apt-get -y --force-yes install clusterhq-flocker-cli
+	;;
 esac
 
 echo "Flocker CLI installed."

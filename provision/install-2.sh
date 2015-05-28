@@ -14,6 +14,10 @@ ubuntu-14.04)
 	export DEBIAN_FRONTEND=noninteractive
 	sudo apt-get --assume-yes install git
 	;;
+ubuntu-15.04)
+	export DEBIAN_FRONTEND=noninteractive
+	sudo apt-get --assume-yes install git
+	;;
 *)
 	echo "Unsupported operating system '${OPSYS}'" >&2
 	exit 1

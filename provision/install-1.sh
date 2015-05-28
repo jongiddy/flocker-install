@@ -50,6 +50,8 @@ fedora-20)
 	;;
 ubuntu-14.04)
 	;;
+ubuntu-15.04)
+	;;
 *)
 	echo "Unsupported operating system '${OPSYS}'" >&2
 	exit 1
