@@ -61,7 +61,8 @@ ubuntu-15.04)
 	sudo add-apt-repository -y 'deb https://clusterhq-archive.s3.amazonaws.com/ubuntu-testing/14.04/$(ARCH) /'
 
 	if [ "${FLOCKER_BRANCH}" ]; then
-		BUILDBOT_REPO=http://build.clusterhq.com/results/omnibus/${FLOCKER_BRANCH}/${OPSYS}
+		# no 15.04 repo yet - use 14.04
+		BUILDBOT_REPO=http://build.clusterhq.com/results/omnibus/${FLOCKER_BRANCH}/ubuntu-14.04
 		sudo add-apt-repository -y "deb ${BUILDBOT_REPO} /"
 		cat > /tmp/apt-pref <<EOF
 Package:  *
