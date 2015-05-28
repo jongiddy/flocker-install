@@ -1,0 +1,52 @@
+VAGRANTFILE_API_VERSION = "2"
+
+unless Vagrant.has_plugin?("vagrant-reload")
+  print "Run the command 'vagrant plugin install vagrant-reload' first.\n"
+  exit 1
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "chef/fedora-20"
+  config.vm.network "private_network", type: "dhcp"
+
+  # Disable /vagrant - not needed and expensive rsync with AWS
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider :virtualbox do |vbox, override|
+    override.vm.provision :shell, :path => "fixtty.sh", :privileged => true
+  end
+
+  config.vm.provider :aws do |aws, override|
+    # Use a dummy box and specify everything here in Vagrantfile
+    override.vm.box = "dummy"
+    override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+
+    # Ensure tty is not required to run sudo
+    aws.user_data = <<-eos
+      #cloud-config
+      runcmd:
+        - echo 'Defaults:fedora !requiretty' > /etc/sudoers.d/888-vagrant-cloud-init-requiretty
+    eos
+
+    # AWS API credentials
+    aws.access_key_id = ENV["AWS_ACCESS_ID"]
+    aws.secret_access_key = ENV["AWS_ACCESS_KEY"]
+
+    # Instance login key - name in AWS and path to local PEM file
+    aws.keypair_name = ENV["AWS_KEYPAIR_NAME"]
+    override.ssh.private_key_path = ENV["AWS_KEYPAIR_KEY_FILE"]
+
+    # AWS machine description
+    aws.region = "us-west-2"
+    aws.instance_type = "m3.medium"
+    aws.security_groups = [ENV["AWS_SECURITY_GROUP"]]
+
+    aws.ami = "ami-cc8de6fc"  # Fedora-x86_64-20-20140407-sda
+    override.ssh.username = "fedora"
+    aws.tags = {"Name" => "Flocker Node (Fedora)"}
+  end
+
+  config.vm.provision :shell, :path => "install-1.sh", :privileged => false
+  config.vm.provision :reload
+  config.vm.provision :shell, :path => "install-2.sh", :privileged => false
+end
