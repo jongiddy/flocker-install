@@ -70,10 +70,10 @@ case "${OPSYS}" in
 centos-7 | fedora-20)
 	sudo systemctl enable flocker-control
 	sudo systemctl start flocker-control
-	firewall-cmd --permanent --add-service flocker-control-api
-	firewall-cmd --add-service flocker-control-api
-	firewall-cmd --permanent --add-service flocker-control-agent
-	firewall-cmd --add-service flocker-control-agent
+	sudo firewall-cmd --permanent --add-service flocker-control-api
+	sudo firewall-cmd --add-service flocker-control-api
+	sudo firewall-cmd --permanent --add-service flocker-control-agent
+	sudo firewall-cmd --add-service flocker-control-agent
 	;;
 ubuntu-14.04)
 	cat > /tmp/upstart.override <<EOF
@@ -86,8 +86,8 @@ EOF
     echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /tmp/services
     sudo cp /tmp/services /etc/services
     sudo service flocker-control start
-    ufw allow flocker-control-api
-    ufw allow flocker-control-agent
+    sudo ufw allow flocker-control-api
+    sudo ufw allow flocker-control-agent
 	;;
 esac
 
