@@ -32,11 +32,12 @@ EOF
 	fi
 
 	# Add ClusterHQ packages
-	sudo yum -y install ${branch_opt} clusterhq-flocker-cli
+	sudo yum -y install ${branch_opt} clusterhq-flocker-node
 	;;
 ubuntu-14.04)
 	# Add ClusterHQ repository
 	sudo apt-get -y install apt-transport-https software-properties-common
+	sudo add-apt-repository -y ppa:james-page/docker
 	sudo add-apt-repository -y 'deb https://clusterhq-archive.s3.amazonaws.com/ubuntu-testing/14.04/$(ARCH) /'
 
 	if [ "${FLOCKER_BRANCH}" ]; then
@@ -53,8 +54,39 @@ EOF
 	sudo apt-get update
 
 	# Unauthenticated packages need --force-yes
-	sudo apt-get -y --force-yes install clusterhq-flocker-cli
+	sudo apt-get -y --force-yes install clusterhq-flocker-node
 	;;
 esac
 
-echo "Flocker CLI installed."
+# Install control certificates
+sudo mkdir -p /etc/flocker
+sudo chmod u=rwX,g=,o= /etc/flocker
+sudo mv cluster.crt /etc/flocker/cluster.crt
+sudo mv control-service.crt /etc/flocker/control-service.crt
+sudo mv control-service.key /etc/flocker/control-service.key
+
+# Enable Flocker Control
+case "${OPSYS}" in
+centos-7 | fedora-20)
+	sudo systemctl enable flocker-control
+	sudo systemctl start flocker-control
+	firewall-cmd --permanent --add-service flocker-control-api
+	firewall-cmd --add-service flocker-control-api
+	firewall-cmd --permanent --add-service flocker-control-agent
+	firewall-cmd --add-service flocker-control-agent
+	;;
+ubuntu-14.04)
+	cat > /tmp/upstart.override <<EOF
+start on runlevel [2345]
+stop on runlevel [016]
+EOF
+	sudo mv /tmp/upstart.override /etc/init/flocker-control.override
+	sudo echo 'flocker-control-api\t4523/tcp\t\t\t# Flocker Control API port' >> /etc/services
+    sudo echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /etc/services
+    sudo service flocker-control start
+    ufw allow flocker-control-api
+    ufw allow flocker-control-agent
+	;;
+esac
+
+echo "Flocker Control installed."
