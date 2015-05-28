@@ -9,11 +9,11 @@ values.
 
 ## Cluster
 
-It is simplest to run a client locally, using `local/pip.sh`.
+It is simplest to run a client locally, using `./pip.sh`.
 Once this is installed, run:
 
 ```
-PATH=`pwd`/flocker-client:${PATH}
+PATH=`pwd`/flocker-client/bin:${PATH}
 
 flocker-ca initialize mycluster
 

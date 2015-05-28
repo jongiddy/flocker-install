@@ -6,5 +6,5 @@ export FLOCKER_ACCEPTANCE_AGENT_NODES=52.24.92.210:52.11.186.69
 export FLOCKER_ACCEPTANCE_VOLUME_BACKEND=zfs
 export FLOCKER_ACCEPTANCE_API_CERTIFICATES_PATH=`pwd`
 
-bin/trial flocker.acceptance
+trial flocker.acceptance
 

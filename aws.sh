@@ -7,7 +7,7 @@ TOP=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
 source read_server_args.sh "$0" "$@"
 
-source ../secrets.sh
+source secrets.sh
 
 which aws || sudo pip install awscli
 
