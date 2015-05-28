@@ -11,6 +11,7 @@ centos-7 | fedora-20)
 	sudo yum install -y git
 	;;
 ubuntu-14.04)
+	export DEBIAN_FRONTEND=noninteractive
 	sudo apt-get --assume-yes install git
 	;;
 *)
