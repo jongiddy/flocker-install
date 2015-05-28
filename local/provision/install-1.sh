@@ -49,9 +49,6 @@ fedora-20)
 	fi
 	;;
 ubuntu-14.04)
-	export DEBIAN_FRONTEND=noninteractive
-	sudo apt-get update
-	sudo apt-get -y upgrade
 	;;
 *)
 	echo "Unsupported operating system '${OPSYS}'" >&2
