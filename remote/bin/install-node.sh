@@ -14,7 +14,7 @@ case "${OPSYS}" in
 centos-7 | fedora-20)
 	case "${FLOCKER_BACKEND}" in
 	zfs)
-		sudo yum install -y XXX
+		sudo yum install -y https://s3.amazonaws.com/archive.zfsonlinux.org/epel/zfs-release.el7.noarch.rpm
 		case "${OPSYS}" in
 		centos-7)
 			sudo yum install -y epel-release

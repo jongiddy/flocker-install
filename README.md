@@ -17,10 +17,13 @@ cd flocker-client
 
 ./bin/flocker-ca initialize mycluster
 
-./bin/flocker-ca create-control-certificate <CONTROL-SERVICE-IP>
-scp cluster.crt centos@<CONTROL-SERVICE-IP>:cluster.crt
-scp control-<CONTROL-SERVICE-IP>.crt centos@<CONTROL-SERVICE-IP>:control.crt
-scp control-<CONTROL-SERVICE-IP>.key centos@<CONTROL-SERVICE-IP>:control.key
+CONTROL_HOST=<CONTROL-SERVICE-HOST>
+CONTROL_USER=<CONTROL-SERVICE-USER>
+
+./bin/flocker-ca create-control-certificate ${CONTROL_HOST}
+scp cluster.crt ${CONTROL_USER}@${CONTROL_HOST}:cluster.crt
+scp control-${CONTROL_HOST}.crt ${CONTROL_USER}@${CONTROL_HOST}:control.crt
+scp control-${CONTROL_HOST}.key ${CONTROL_USER}@${CONTROL_HOST}:control.key
 
 ```
 
@@ -35,15 +38,18 @@ If no branch is provided, the latest release will be installed.
 For each agent node, locally run:
 
 ```
-./bin/flocker-ca create-node-certificate <NODE-SERVICE-IP>
-scp cluster.crt centos@<NODE-SERVICE-IP>:cluster.crt
-scp node-<NODE-SERVICE-IP>.crt centos@<NODE-SERVICE-IP>:node.crt
-scp node-<NODE-SERVICE-IP>.key centos@<NODE-SERVICE-IP>:node.key
+NODE_HOST=<NODE-SERVICE-HOST>
+NODE_USER=<NODE-SERVICE-USER>
+
+./bin/flocker-ca create-node-certificate
+scp cluster.crt ${NODE_USER}@${NODE_HOST}:cluster.crt
+scp ${NODE_UUID}.crt ${NODE_USER}@${NODE_HOST}:node.crt
+scp ${NODE_UUID}.key ${NODE_USER}@${NODE_HOST}:node.key
 
 ```
 
 On each node, run:
 ```
-install-node.sh <CONTROL-SERVICE-IP> [ <BACKEND> ] [ <BRANCH> ]
+install-node.sh <CONTROL-SERVICE-HOST> [ <BACKEND> ] [ <BRANCH> ]
 ```
 
