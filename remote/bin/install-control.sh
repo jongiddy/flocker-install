@@ -81,8 +81,10 @@ start on runlevel [2345]
 stop on runlevel [016]
 EOF
 	sudo mv /tmp/upstart.override /etc/init/flocker-control.override
-	sudo echo 'flocker-control-api\t4523/tcp\t\t\t# Flocker Control API port' >> /etc/services
-    sudo echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /etc/services
+	cp /etc/services /tmp/services
+	echo 'flocker-control-api\t4523/tcp\t\t\t# Flocker Control API port' >> /tmp/services
+    echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /tmp/services
+    sudo cp /tmp/services /etc/services
     sudo service flocker-control start
     ufw allow flocker-control-api
     ufw allow flocker-control-agent
