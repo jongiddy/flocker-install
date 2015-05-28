@@ -26,4 +26,4 @@ if [ -r ${HOME}/.bash_profile ]; then
 else
 	initfile=${HOME}/.bashrc
 fi
-echo 'PATH=${PATH}:${HOME}/flocker-install/remote/bin' >> initfile
+echo 'PATH=${PATH}:${HOME}/flocker-install/remote/bin' >> ${initfile}
