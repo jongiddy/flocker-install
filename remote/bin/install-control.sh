@@ -62,8 +62,8 @@ esac
 sudo mkdir -p /etc/flocker
 sudo chmod u=rwX,g=,o= /etc/flocker
 sudo mv cluster.crt /etc/flocker/cluster.crt
-sudo mv control-service.crt /etc/flocker/control-service.crt
-sudo mv control-service.key /etc/flocker/control-service.key
+sudo mv control.crt /etc/flocker/control-service.crt
+sudo mv control.key /etc/flocker/control-service.key
 
 # Enable Flocker Control
 case "${OPSYS}" in

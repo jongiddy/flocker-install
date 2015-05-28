@@ -3,11 +3,11 @@
 set -e
 set -a  # Variables from sourced files are exported to Vagrant commands
 
+TOP=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+
 source read_server_args.sh "$0" "$@"
 
 source ../secrets.sh
-
-set -x
 
 which aws || sudo pip install awscli
 
@@ -15,8 +15,8 @@ tmpdir=/tmp/flocker.$$
 
 mkdir ${tmpdir}
 
-ln -s * ${tmpdir}
-ln -s ${tmpdir}/Vagrantfile-${FLOCKER_OS} ${tmpdir}/Vagrantfile
+ln -s ${TOP}/provision/* ${tmpdir}
+ln -s ${TOP}/vagrant/Vagrantfile-${FLOCKER_OS} ${tmpdir}/Vagrantfile
 
 cd ${tmpdir}
 
