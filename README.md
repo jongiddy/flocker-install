@@ -13,7 +13,7 @@ It is simplest to run a client locally, using `./pip.sh`.
 Once this is installed, run:
 
 ```
-PATH=`pwd`/flocker-client/bin:${PATH}
+source ./flocker-client/bin/activate
 
 flocker-ca initialize mycluster
 
@@ -43,6 +43,9 @@ NODE_USER=<NODE-SERVICE-USER>
 
 flocker-ca create-node-certificate
 scp cluster.crt ${NODE_USER}@${NODE_HOST}:cluster.crt
+```
+Set `NODE_UUID` to the UUID part of filename output by the `flocker-ca` command
+```
 scp ${NODE_UUID}.crt ${NODE_USER}@${NODE_HOST}:node.crt
 scp ${NODE_UUID}.key ${NODE_USER}@${NODE_HOST}:node.key
 
