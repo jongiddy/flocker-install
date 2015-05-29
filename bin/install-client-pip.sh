@@ -22,8 +22,7 @@ centos | fedora)
 	${SUDO} yum install gcc python python-devel python-virtualenv libffi-devel openssl-devel
 	;;
 ubuntu)
-	# Add ClusterHQ repository
-	${SUDO} sudo apt-get install gcc libssl-dev libffi-dev python2.7 python-virtualenv python2.7-dev
+	${SUDO} apt-get install gcc libssl-dev libffi-dev python2.7 python-virtualenv python2.7-dev
 	;;
 esac
 
