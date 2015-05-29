@@ -21,10 +21,12 @@ centos-7 | fedora-20)
 	;;
 ubuntu-14.04)
 	export DEBIAN_FRONTEND=noninteractive
+	${SUDO} apt-get update
 	${SUDO} apt-get --assume-yes install git
 	;;
 ubuntu-15.04)
 	export DEBIAN_FRONTEND=noninteractive
+	${SUDO} apt-get update
 	${SUDO} apt-get --assume-yes install git
 	;;
 *)

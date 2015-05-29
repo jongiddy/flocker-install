@@ -19,10 +19,10 @@ OPSYS=${ID}-${VERSION_ID}
 
 case "${ID}" in
 centos | fedora)
-	${SUDO} yum install gcc python python-devel python-virtualenv libffi-devel openssl-devel
+	${SUDO} yum install -y gcc python python-devel python-virtualenv libffi-devel openssl-devel
 	;;
 ubuntu)
-	${SUDO} apt-get install gcc libssl-dev libffi-dev python2.7 python-virtualenv python2.7-dev
+	${SUDO} apt-get -y install gcc libssl-dev libffi-dev python2.7 python-virtualenv python2.7-dev
 	;;
 esac
 
