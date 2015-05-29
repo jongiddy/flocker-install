@@ -41,4 +41,4 @@ else
 	initfile=${HOME}/.bashrc
 fi
 PWD=$(pwd)
-echo 'PATH=${PATH}:${PWD%/}/flocker-install/remote/bin' >> ${initfile}
+echo 'PATH=${PATH}:${PWD%/}/flocker-install/bin' >> ${initfile}

@@ -12,7 +12,7 @@ values.
 It is simplest to run a client locally, using:
 
 ```
-./remote/bin/install-client-pip.sh
+./bin/install-client-pip.sh
 source ./flocker-client/bin/activate
 ```
 
