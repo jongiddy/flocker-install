@@ -47,6 +47,12 @@ EOF
 
 	# Add ClusterHQ packages
 	sudo yum -y install ${branch_opt} clusterhq-flocker-node
+
+	# Turn off SELinux if enabled
+	if [ -r /etc/selinux/config ]; then
+		sudo setenforce 0
+		sudo sed --in-place='.preflocker' 's/^SELINUX=.*$/SELINUX=disabled/g' /etc/selinux/config
+	fi
 	;;
 ubuntu-14.04)
 	# Add ClusterHQ repository
@@ -94,6 +100,9 @@ sudo mv node.key /etc/flocker/node.key
 
 case "${FLOCKER_BACKEND}" in
 zfs)
+	# Ensure peer nodes can connect as root
+	sudo cp ~/.ssh/authorized_keys ~root/.ssh/authorized_keys
+	# Create a ZFS pool
 	sudo mkdir -p /var/opt/flocker
 	sudo truncate --size 10G /var/opt/flocker/pool-vdev
 	sudo zpool create flocker /var/opt/flocker/pool-vdev
