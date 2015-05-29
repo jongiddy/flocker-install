@@ -9,12 +9,15 @@ values.
 
 ## Cluster
 
-It is simplest to run a client locally, using `./pip.sh`.
-Once this is installed, run:
+It is simplest to run a client locally, using:
 
 ```
+./remote/bin/install-client-pip.sh
 source ./flocker-client/bin/activate
+```
 
+Once this is installed, run:
+```
 flocker-ca initialize mycluster
 
 CONTROL_HOST=<CONTROL-SERVICE-HOST>
