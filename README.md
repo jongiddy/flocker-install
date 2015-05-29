@@ -1,6 +1,9 @@
 # flocker-install
 Installation scripts for Flocker
 
+The user account on the remote systems must be logged in as a user who has root
+access. If these scripts are run non-interactively, sudo access must be
+passwordless.
 
 ## AWS
 
