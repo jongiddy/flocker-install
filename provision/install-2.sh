@@ -1,6 +1,15 @@
 #!/bin/bash
 
-set -e -x
+set -e
+
+if [[ $EUID -eq 0 ]]; then
+	# running as root - don't need sudo
+	SUDO=
+else
+	SUDO=sudo
+fi
+
+set -x
 
 source /etc/os-release
 
@@ -8,15 +17,15 @@ OPSYS=${ID}-${VERSION_ID}
 
 case "${OPSYS}" in
 centos-7 | fedora-20)
-	sudo yum install -y git
+	${SUDO} yum install -y git
 	;;
 ubuntu-14.04)
 	export DEBIAN_FRONTEND=noninteractive
-	sudo apt-get --assume-yes install git
+	${SUDO} apt-get --assume-yes install git
 	;;
 ubuntu-15.04)
 	export DEBIAN_FRONTEND=noninteractive
-	sudo apt-get --assume-yes install git
+	${SUDO} apt-get --assume-yes install git
 	;;
 *)
 	echo "Unsupported operating system '${OPSYS}'" >&2
@@ -31,4 +40,5 @@ if [ -r ${HOME}/.bash_profile ]; then
 else
 	initfile=${HOME}/.bashrc
 fi
-echo 'PATH=${PATH}:${HOME}/flocker-install/remote/bin' >> ${initfile}
+PWD=$(pwd)
+echo 'PATH=${PATH}:${PWD%/}/flocker-install/remote/bin' >> ${initfile}

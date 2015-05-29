@@ -1,6 +1,15 @@
 #!/bin/bash
 
-set -e -x
+set -e
+
+if [[ $EUID -eq 0 ]]; then
+	# running as root - don't need sudo
+	SUDO=
+else
+	SUDO=sudo
+fi
+
+set -x
 
 source /etc/os-release
 
@@ -8,7 +17,7 @@ OPSYS=${ID}-${VERSION_ID}
 
 case "${OPSYS}" in
 centos-7)
-	sudo yum install -y kernel-devel kernel
+	${SUDO} yum install -y kernel-devel kernel
 	;;
 fedora-20)
 	# Extract main version number
@@ -34,8 +43,8 @@ fedora-20)
 	fi
 
 	if [ "${upgrade}" ]; then
-		sudo yum upgrade -y kernel kernel-devel
-		sudo grubby --set-default-index 0
+		${SUDO} yum upgrade -y kernel kernel-devel
+		${SUDO} grubby --set-default-index 0
 	else
 		# Don't need to upgrade kernel but do need kernel-devel libs
 		# kernel-devel may not be available in standard repo for our kernel,
@@ -45,7 +54,7 @@ fedora-20)
 		KV=${PV%%-*}
 		SV=${PV##*-}
 		ARCH=$(uname -m)
-		sudo yum install -y https://kojipkgs.fedoraproject.org/packages/kernel/${KV}/${SV}/${ARCH}/kernel-devel-${UNAME_R}.rpm
+		${SUDO} yum install -y https://kojipkgs.fedoraproject.org/packages/kernel/${KV}/${SV}/${ARCH}/kernel-devel-${UNAME_R}.rpm
 	fi
 	;;
 ubuntu-14.04)
