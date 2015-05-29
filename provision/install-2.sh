@@ -15,23 +15,17 @@ source /etc/os-release
 
 OPSYS=${ID}-${VERSION_ID}
 
-case "${OPSYS}" in
-centos-7 | fedora-20)
+case "${ID}" in
+centos | fedora)
 	${SUDO} yum install -y git
 	;;
-ubuntu-14.04)
-	export DEBIAN_FRONTEND=noninteractive
-	${SUDO} apt-get update
-	${SUDO} apt-get --assume-yes install git
-	;;
-ubuntu-15.04)
+debian | ubuntu)
 	export DEBIAN_FRONTEND=noninteractive
 	${SUDO} apt-get update
 	${SUDO} apt-get --assume-yes install git
 	;;
 *)
 	echo "Unsupported operating system '${OPSYS}'" >&2
-	exit 1
 	;;
 esac
 

@@ -15,20 +15,9 @@ TOP=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
 source read_server_args.sh "$0" "$@"
 
-case ${FLOCKER_OS} in
-centos-7)
-    IMAGE=centos:7
-    ;;
-fedora-20)
-    IMAGE=fedora:20
-    ;;
-ubuntu-14.04)
-    IMAGE=ubuntu:14.04
-    ;;
-ubuntu-15.04)
-    IMAGE=ubuntu:15.04
-    ;;
-esac
+# Replace first dash with colon to make Docker image name
+# centos-7 => centos:7, ubuntu-14.04 => ubuntu:14.04
+IMAGE=$(echo ${FLOCKER_OS} | sed -e 's/^\([^-]*\)-/\1:/')
 
 NAME=test-$$
 

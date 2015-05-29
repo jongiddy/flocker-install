@@ -19,17 +19,6 @@ do
 			exit 1
 		fi
 	    FLOCKER_OS="$2"
-	    case "${FLOCKER_OS}" in
-	    centos-7 | fedora-20 | ubuntu-14.04)
-			;;
-		ubuntu-15.04)
-			echo "Ubuntu 15.04 support is experimental!" >&2
-			;;
-		*)
-			echo "$script: --os option '${FLOCKER_OS}' unsupported" >&2
-			exit 1
-			;;
-		esac
 	    shift
 		;;
 	--backend)

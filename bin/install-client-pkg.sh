@@ -86,6 +86,10 @@ EOF
 	# Unauthenticated packages need --force-yes
 	${SUDO} apt-get -y --force-yes install clusterhq-flocker-cli
 	;;
+*)
+	echo "Unsupported operating system '${OPSYS}'" >&2
+	exit 1
+	;;
 esac
 
 echo "Flocker CLI installed."
