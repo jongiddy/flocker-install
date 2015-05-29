@@ -1,5 +1,13 @@
 #!/bin/bash
 
+docker ps > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    DOCKER=docker
+else
+    # assume failure was due to permissions
+    DOCKER='sudo docker'
+fi
+
 set -e
 set -a  # Variables from sourced files are exported to Vagrant commands
 
@@ -24,13 +32,13 @@ esac
 
 NAME=test-$$
 
-sudo docker run --name ${NAME} -d -it -v ${TOP}/provision:/host ${IMAGE} /bin/bash
+${DOCKER} run --name ${NAME} -d -it -v ${TOP}/provision:/host ${IMAGE} /bin/bash
 
-sudo docker exec ${NAME} /host/install-2.sh || true
+${DOCKER} exec ${NAME} /host/install-2.sh || true
 
 connect=0
 while [ "${connect}" -eq 0 ]; do
-    sudo docker exec -it ${NAME} /bin/bash --login || true
+    ${DOCKER} exec -it ${NAME} /bin/bash --login || true
     read -p "reConnect, Terminate, or Quit (without terminating instance)?" ctq
     case $ctq in
         [Qq]*) exit ;;
@@ -39,5 +47,5 @@ while [ "${connect}" -eq 0 ]; do
     esac
 done
 
-sudo docker stop ${NAME}
-sudo docker rm ${NAME}
+${DOCKER} stop ${NAME}
+${DOCKER} rm ${NAME}

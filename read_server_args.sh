@@ -1,5 +1,3 @@
-set +x
-
 script=$1
 shift
 
