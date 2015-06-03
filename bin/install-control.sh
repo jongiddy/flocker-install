@@ -77,12 +77,15 @@ ${SUDO} mv control.key /etc/flocker/control-service.key
 # Enable Flocker Control
 case "${OPSYS}" in
 centos-7 | fedora-20)
-	${SUDO} systemctl enable flocker-control
-	${SUDO} systemctl start flocker-control
+	${SUDO} yum install -y firewalld
+	${SUDO} systemctl enable firewalld
+	${SUDO} systemctl start firewalld
 	${SUDO} firewall-cmd --permanent --add-service flocker-control-api
 	${SUDO} firewall-cmd --add-service flocker-control-api
 	${SUDO} firewall-cmd --permanent --add-service flocker-control-agent
 	${SUDO} firewall-cmd --add-service flocker-control-agent
+	${SUDO} systemctl enable flocker-control
+	${SUDO} systemctl start flocker-control
 	;;
 ubuntu-14.04)
 	cat > /tmp/upstart.override <<EOF
