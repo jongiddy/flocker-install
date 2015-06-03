@@ -69,5 +69,5 @@ install-node.sh <CONTROL-SERVICE-HOST> [ <BACKEND> ] [ <BRANCH> ]
 On the client, edit `run_tests.sh` to include the IP's of nodes and run:
 ```
 flocker-ca create-api-certificate user
-./run_tests.sh
+./run-test.sh
 ```
