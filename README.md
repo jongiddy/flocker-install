@@ -19,7 +19,11 @@ It is simplest to run a client locally, using:
 source ./flocker-client/bin/activate
 ```
 
-Once this is installed, run:
+Start the nodes for the cluster by running either the `vbox.sh` or `aws.sh`
+repeatedly in different terminals.  By default, these commands start CentOS 7
+instances.  To use Ubuntu 14.04, add `--os ubuntu14.04`.
+
+To setup the control node:
 ```
 flocker-ca initialize mycluster
 
