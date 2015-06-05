@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.instance_type = "m3.medium"
     aws.security_groups = [ENV["AWS_SECURITY_GROUP"]]
 
-    aws.ami = "ami-29ebb519"  # ubuntu-trusty-14.04-amd64-server-20150123
+    aws.ami = "ami-23102413"  # ubuntu/images/ebs-io1/ubuntu-vivid-15.04-amd64-server-20150422
     override.ssh.username = "ubuntu"
     aws.tags = {"Name" => "Flocker Node (Ubuntu)"}
   end
