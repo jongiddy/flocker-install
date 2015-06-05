@@ -14,6 +14,24 @@ which aws || sudo pip install awscli
 tmpdir=/tmp/flocker.$$
 
 mkdir ${tmpdir}
+chmod 700 ${tmpdir}
+
+cat > ${tmpdir}/cert.sh <<EOFTOP
+#!/bin/bash
+cat > cluster.crt <<EOF
+EOFTOP
+cat cluster.crt >> ${tmpdir}/cert.sh
+cat >> ${tmpdir}/cert.sh <<EOFTOP
+EOF
+cat > cluster.key <<EOF
+EOFTOP
+cat cluster.key >> ${tmpdir}/cert.sh
+cat >> ${tmpdir}/cert.sh <<EOFTOP
+EOF
+chmod 600 cluster.key
+EOFTOP
+
+chmod 700 ${tmpdir}/cert.sh
 
 ln -s ${TOP}/provision/* ${tmpdir}
 ln -s ${TOP}/vagrant/Vagrantfile-${FLOCKER_OS} ${tmpdir}/Vagrantfile

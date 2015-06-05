@@ -44,5 +44,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, :path => "install-1.sh", :privileged => false
   config.vm.provision :reload
+  config.vm.provision :shell, :path => "cert.sh", :privileged => false
   config.vm.provision :shell, :path => "install-2.sh", :privileged => false
 end

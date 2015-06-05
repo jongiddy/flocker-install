@@ -11,7 +11,8 @@ fi
 
 set -x
 
-FLOCKER_BRANCH=$1
+CONTROL_HOST=$1
+FLOCKER_BRANCH=$2
 
 source /etc/os-release
 
@@ -41,7 +42,8 @@ EOF
 	fi
 
 	# Add ClusterHQ packages
-	${SUDO} yum -y install ${branch_opt} clusterhq-flocker-node
+	# Install cli package to get flocker-ca command
+	${SUDO} yum -y install ${branch_opt} clusterhq-flocker-cli clusterhq-flocker-node
 	;;
 ubuntu-14.04)
 	# Add ClusterHQ repository
@@ -63,16 +65,19 @@ EOF
 	${SUDO} apt-get update
 
 	# Unauthenticated packages need --force-yes
-	${SUDO} apt-get -y --force-yes install clusterhq-flocker-node
+	# Install cli package to get flocker-ca command
+	${SUDO} apt-get -y --force-yes install clusterhq-flocker-cli clusterhq-flocker-node
 	;;
 esac
 
 # Install control certificates
+flocker-ca create-control-certificate ${CONTROL_HOST}
 ${SUDO} mkdir -p /etc/flocker
 ${SUDO} chmod u=rwX,g=,o= /etc/flocker
-${SUDO} mv cluster.crt /etc/flocker/cluster.crt
-${SUDO} mv control.crt /etc/flocker/control-service.crt
-${SUDO} mv control.key /etc/flocker/control-service.key
+${SUDO} cp cluster.crt /etc/flocker/cluster.crt
+${SUDO} mv control-${CONTROL_HOST}.crt /etc/flocker/control-service.crt
+${SUDO} mv control-${CONTROL_HOST}.key /etc/flocker/control-service.key
+${SUDO} chmod 600 /etc/flocker/control-service.key
 
 # Enable Flocker Control
 case "${OPSYS}" in

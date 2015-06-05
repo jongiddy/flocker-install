@@ -5,6 +5,9 @@ The user account on the remote systems must be logged in as a user who has root
 access. If these scripts are run non-interactively, sudo access must be
 passwordless.
 
+Note, these scripts cheat on the certificate creation by copying the CA private
+key to each node.  Do not do this in production!
+
 ## AWS
 
 To use AWS, copy the file `secrets.sh.example` to `secrets.sh` and fill in the
@@ -17,49 +20,22 @@ It is simplest to run a client locally, using:
 ```
 ./bin/install-client-src.sh [ <BRANCH> ]
 source ./flocker-client/bin/activate
+flocker-ca initialize mycluster
 ```
 
 Start the nodes for the cluster by running either the `vbox.sh` or `aws.sh`
 repeatedly in different terminals.  By default, these commands start CentOS 7
 instances.  To use Ubuntu 14.04, add `--os ubuntu14.04`.
 
-To setup the control node:
-```
-flocker-ca initialize mycluster
-
-CONTROL_HOST=<CONTROL-SERVICE-HOST>
-CONTROL_USER=<CONTROL-SERVICE-USER>
-
-flocker-ca create-control-certificate ${CONTROL_HOST}
-scp cluster.crt ${CONTROL_USER}@${CONTROL_HOST}:cluster.crt
-scp control-${CONTROL_HOST}.crt ${CONTROL_USER}@${CONTROL_HOST}:control.crt
-scp control-${CONTROL_HOST}.key ${CONTROL_USER}@${CONTROL_HOST}:control.key
-
-```
-
 On the control node, run:
 ```
-install-control.sh [ <BRANCH> ]
+install-control.sh <CONTROL-SERVICE-HOST> [ <BRANCH> ]
 ```
 
+where `<CONTROL-SERVICE-HOST>` is the external DNS or IP address of the control
+node, and `<BRANCH>` is an optional Flocker branch.
 If a branch is provided, the latest build of that branch will be installed.
 If no branch is provided, the latest release will be installed.
-
-For each agent node, locally run:
-
-```
-NODE_HOST=<NODE-SERVICE-HOST>
-NODE_USER=<NODE-SERVICE-USER>
-
-flocker-ca create-node-certificate
-scp cluster.crt ${NODE_USER}@${NODE_HOST}:cluster.crt
-```
-Set `NODE_UUID` to the UUID part of filename output by the `flocker-ca` command
-```
-scp ${NODE_UUID}.crt ${NODE_USER}@${NODE_HOST}:node.crt
-scp ${NODE_UUID}.key ${NODE_USER}@${NODE_HOST}:node.key
-
-```
 
 On each node, run:
 ```
