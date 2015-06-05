@@ -15,7 +15,7 @@ values.
 It is simplest to run a client locally, using:
 
 ```
-./bin/install-client-pip.sh
+./bin/install-client-src.sh [ <BRANCH> ]
 source ./flocker-client/bin/activate
 ```
 
