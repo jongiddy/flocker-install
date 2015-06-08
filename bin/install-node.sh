@@ -113,7 +113,20 @@ ${SUDO} chmod 600 /etc/flocker/node.key
 
 case "${FLOCKER_BACKEND}" in
 zfs)
-	# Ensure peer nodes can connect as root
+	# Ensure peer nodes can connect to ssh...
+	case "${OPSYS}" in
+	centos-7 | fedora-20)
+		${SUDO} yum install -y firewalld
+		${SUDO} systemctl enable firewalld
+		${SUDO} systemctl start firewalld
+		${SUDO} firewall-cmd --add-service ssh --permanent
+		${SUDO} firewall-cmd --reload
+		;;
+	ubuntu-14.04)
+	    ${SUDO} ufw allow ssh
+	    ;;
+	esac
+	# ...as root user
 	${SUDO} cp ~/.ssh/authorized_keys ~root/.ssh/authorized_keys
 	# Create a ZFS pool
 	${SUDO} mkdir -p /var/opt/flocker
