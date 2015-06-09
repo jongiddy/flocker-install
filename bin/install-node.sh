@@ -19,6 +19,7 @@ source /etc/os-release
 
 OPSYS=${ID}-${VERSION_ID}
 
+# Install volume backend, Docker and Flocker
 case "${OPSYS}" in
 centos-7 | fedora-20)
 	case "${FLOCKER_BACKEND}" in
@@ -63,6 +64,9 @@ EOF
 		${SUDO} setenforce 0
 		${SUDO} sed --in-place='.preflocker' 's/^SELINUX=.*$/SELINUX=disabled/g' /etc/selinux/config
 	fi
+
+	${SUDO} systemctl enable docker.service
+	${SUDO} systemctl start docker.service
 	;;
 ubuntu-14.04)
 	# Add ClusterHQ repository
