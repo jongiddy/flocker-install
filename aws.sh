@@ -46,8 +46,8 @@ vagrant plugin list | grep -q vagrant-reload || vagrant plugin install vagrant-r
 vagrant up --provider=aws
 
 aws_id=$(cat .vagrant/machines/default/aws/id)
-ipaddr=$(aws ec2 describe-instances --instance-ids ${aws_id} | sed -n -e 's/ *"PublicIpAddress": "\([0-9.]*\).*/\1/p')
-echo "Flocker Node IP address: ${ipaddr}"
+hostname=$(aws ec2 describe-instances --instance-ids ${aws_id} | sed -n -e 's/ *"PublicDnsName": "\([^"]*\)",/\1/p' | head -1)
+echo "Flocker Node address: ${hostname}"
 
 connect=0
 while [ "${connect}" -eq 0 ]; do
