@@ -32,18 +32,21 @@ vagrant plugin list | grep -q vagrant-reload || vagrant plugin install vagrant-r
 vagrant up
 
 vbox_id=`cat .vagrant/machines/default/virtualbox/id`
-ipaddr=`VBoxManage guestproperty get ${vbox_id} '/VirtualBox/GuestInfo/Net/1/V4/IP' | sed -e 's/Value: //'`
+hostname=`VBoxManage guestproperty get ${vbox_id} '/VirtualBox/GuestInfo/Net/1/V4/IP' | sed -e 's/Value: //'`
 # Above works for Ubuntu, but not for CentOS
-if [ -z "${ipaddr}" -o "${ipaddr}" = 'No value set!' ]; then
-    ipaddr=$(vagrant ssh -- "/usr/sbin/ip addr show enp0s8 | grep 'inet ' | sed -e 's: *inet \([0-9.]*\).*$:\1:'")
+if [ -z "${hostname}" -o "${hostname}" = 'No value set!' ]; then
+    hostname=$(vagrant ssh -- "/usr/sbin/ip addr show enp0s8 | grep 'inet ' | sed -e 's: *inet \([0-9.]*\).*$:\1:'")
 fi
 
-echo "Flocker Node IP address: ${ipaddr}"
-if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
-    echo ${ipaddr} >> ${TOP}/control.txt
-fi
+echo "Flocker Node IP address: ${hostname}"
 if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
-    echo ${ipaddr} >> ${TOP}/agents.txt
+    echo ${hostname} >> ${TOP}/agents.txt
+fi
+if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
+    echo ${hostname} > ${TOP}/control.txt
+    flocker-ca create-control-certificate ${hostname} --inputpath=${TOP}
+    vagrant scp control-*.crt control-service.crt
+    vagrant scp control-*.key control-service.key
 fi
 
 connect=0

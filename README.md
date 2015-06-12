@@ -20,12 +20,19 @@ It is simplest to run a client locally, using:
 ```
 ./bin/install-client-src.sh [ <BRANCH> ]
 source ./flocker-client/bin/activate
-flocker-ca initialize mycluster
+```
+
+To create a cluster, start with:
+```
+./cluster_init.sh
 ```
 
 Start the nodes for the cluster by running either the `vbox.sh` or `aws.sh`
 repeatedly in different terminals.  By default, these commands start CentOS 7
-instances.  To use Ubuntu 14.04, add `--os ubuntu14.04`.
+instances.  To use Ubuntu 14.04, add `--os ubuntu-14.04`.
+
+To start the control node, add the flag `--control`.
+If the control node should not be an agent node, add `--no-agent`.
 
 On the control node, run:
 ```
@@ -44,6 +51,5 @@ install-node.sh <CONTROL-SERVICE-HOST> [ <BACKEND> ] [ <BRANCH> ]
 
 On the client, edit `run_tests.sh` to include the IP's of nodes and run:
 ```
-flocker-ca create-api-certificate user
 ./run-test.sh
 ```

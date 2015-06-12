@@ -43,7 +43,7 @@ EOF
 
 	# Add ClusterHQ packages
 	# Install cli package to get flocker-ca command
-	${SUDO} yum -y install ${branch_opt} clusterhq-flocker-cli clusterhq-flocker-node
+	${SUDO} yum -y install ${branch_opt} clusterhq-flocker-node
 	;;
 ubuntu-14.04)
 	# Add ClusterHQ repository
@@ -66,17 +66,16 @@ EOF
 
 	# Unauthenticated packages need --force-yes
 	# Install cli package to get flocker-ca command
-	${SUDO} apt-get -y --force-yes install clusterhq-flocker-cli clusterhq-flocker-node
+	${SUDO} apt-get -y --force-yes install clusterhq-flocker-node
 	;;
 esac
 
 # Install control certificates
-flocker-ca create-control-certificate ${CONTROL_HOST}
 ${SUDO} mkdir -p /etc/flocker
 ${SUDO} chmod u=rwX,g=,o= /etc/flocker
 ${SUDO} cp cluster.crt /etc/flocker/cluster.crt
-${SUDO} mv control-${CONTROL_HOST}.crt /etc/flocker/control-service.crt
-${SUDO} mv control-${CONTROL_HOST}.key /etc/flocker/control-service.key
+${SUDO} mv control-service.crt /etc/flocker/control-service.crt
+${SUDO} mv control-service.key /etc/flocker/control-service.key
 ${SUDO} chmod 600 /etc/flocker/control-service.key
 
 # Enable Flocker Control
