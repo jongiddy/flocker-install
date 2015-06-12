@@ -15,7 +15,7 @@ mkdir ${tmpdir}
 chmod 700 ${tmpdir}
 
 if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
-    flocker-ca --outputpath=${tmpdir} create-node-certificate
+    flocker-ca create-node-certificate --outputpath=${tmpdir}
     mv ${tmpdir}/*.crt ${tmpdir}/node.crt
     mv ${tmpdir}/*.key ${tmpdir}/node.key
 fi
