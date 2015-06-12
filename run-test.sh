@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export FLOCKER_ACCEPTANCE_NODES=172.28.128.8:172.28.128.9
-export FLOCKER_ACCEPTANCE_CONTROL_NODE=172.28.128.8
-export FLOCKER_ACCEPTANCE_AGENT_NODES=172.28.128.8:172.28.128.9
+export FLOCKER_ACCEPTANCE_NODES=$(cat control.txt agents.txt | sort | uniq | paste -s -d: -)
+export FLOCKER_ACCEPTANCE_CONTROL_NODE=$(cat control.txt)
+export FLOCKER_ACCEPTANCE_AGENT_NODES=$(cat agents.txt | paste -s -d: -)
 export FLOCKER_ACCEPTANCE_VOLUME_BACKEND=zfs
 export FLOCKER_ACCEPTANCE_API_CERTIFICATES_PATH=`pwd`
 
