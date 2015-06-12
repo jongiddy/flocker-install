@@ -33,6 +33,11 @@ vagrant up
 
 vbox_id=`cat .vagrant/machines/default/virtualbox/id`
 ipaddr=`VBoxManage guestproperty get ${vbox_id} '/VirtualBox/GuestInfo/Net/1/V4/IP' | sed -e 's/Value: //'`
+# Above works for Ubuntu, but not for CentOS
+if [ -z "${ipaddr}" -o "${ipaddr}" = 'No value set!' ]; then
+    ipaddr=$(vagrant ssh -- "/usr/sbin/ip addr show enp0s8 | grep 'inet ' | sed -e 's: *inet \([0-9.]*\).*$:\1:'")
+fi
+
 echo "Flocker Node IP address: ${ipaddr}"
 if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
     echo ${ipaddr} >> ${TOP}/control.txt
