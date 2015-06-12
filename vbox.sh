@@ -19,7 +19,7 @@ if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
     mv ${tmpdir}/*.crt ${tmpdir}/node.crt
     mv ${tmpdir}/*.key ${tmpdir}/node.key
 fi
-ln -s cluster.crt ${tmpdir}/cluster.crt
+ln -s ${TOP}/cluster.crt ${tmpdir}/cluster.crt
 
 ln -s ${TOP}/provision/* ${tmpdir}
 ln -s ${TOP}/vagrant/Vagrantfile-${FLOCKER_OS} ${tmpdir}/Vagrantfile
