@@ -15,16 +15,15 @@ values.
 
 ## Cluster
 
-It is simplest to run a client locally, using:
+If you have previously installed a cluster and you wish to re-install the client (to change the branch, for example), remove the directory `flocker-client`, using:
 
 ```
-./bin/install-client-src.sh [ <BRANCH> ]
-source ./flocker-client/bin/activate
+rm -r flocker-client
 ```
 
 To create a cluster, start with:
 ```
-./cluster_init.sh
+./cluster_init.sh [ <BRANCH> ]
 ```
 
 Start the nodes for the cluster by running either the `vbox.sh` or `aws.sh`

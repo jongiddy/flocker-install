@@ -2,6 +2,12 @@
 
 set -e
 
+if [ ! -d flocker-client ]; then
+	./bin/install-client-src.sh "$@"
+fi
+
+source ./flocker-client/bin/activate
+
 [ ! -r cluster.crt ] || rm cluster.crt
 [ ! -r cluster.key ] || rm cluster.key
 [ ! -r user.crt ] || rm user.crt

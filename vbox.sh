@@ -5,6 +5,8 @@ set -a  # Variables from sourced files are exported to Vagrant commands
 
 TOP=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
+source flocker-client/bin/activate
+
 source read_server_args.sh "$0" "$@"
 
 source secrets.sh
@@ -44,7 +46,7 @@ if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
 fi
 if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
     echo ${hostname} > ${TOP}/control.txt
-    flocker-ca create-control-certificate ${hostname} --inputpath=${TOP}
+    flocker-ca create-control-certificate --inputpath=${TOP} ${hostname}
     vagrant scp control-*.crt control-service.crt
     vagrant scp control-*.key control-service.key
 fi
