@@ -83,13 +83,12 @@ ${SUDO} chmod 600 /etc/flocker/control-service.key
 case "${OPSYS}" in
 centos-7 | fedora-20)
 	# Setup firewall
-	${SUDO} yum install -y firewalld
-	${SUDO} systemctl enable firewalld
-	${SUDO} systemctl start firewalld
-	${SUDO} firewall-cmd --add-service ssh --permanent
-	${SUDO} firewall-cmd --add-service flocker-control-api --permanent
-	${SUDO} firewall-cmd --add-service flocker-control-agent --permanent
-	${SUDO} firewall-cmd --reload
+	if [ "$(which firewall-cmd)" ]; then
+		${SUDO} firewall-cmd --add-service ssh --permanent
+		${SUDO} firewall-cmd --add-service flocker-control-api --permanent
+		${SUDO} firewall-cmd --add-service flocker-control-agent --permanent
+		${SUDO} firewall-cmd --reload
+	fi
 	# Start control service
 	${SUDO} systemctl enable flocker-control
 	${SUDO} systemctl start flocker-control
@@ -100,9 +99,11 @@ ubuntu-14.04)
 	echo 'flocker-control-api\t4523/tcp\t\t\t# Flocker Control API port' >> /tmp/services
     echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /tmp/services
     ${SUDO} cp /tmp/services /etc/services
-    ${SUDO} ufw allow ssh
-    ${SUDO} ufw allow flocker-control-api
-    ${SUDO} ufw allow flocker-control-agent
+    if [ "$(which ufw)" ]; then
+	    ${SUDO} ufw allow ssh
+	    ${SUDO} ufw allow flocker-control-api
+	    ${SUDO} ufw allow flocker-control-agent
+	fi
     # Start control service
 	cat > /tmp/upstart.override <<EOF
 start on runlevel [2345]
