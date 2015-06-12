@@ -57,7 +57,7 @@ EOF
 
 	# Add ClusterHQ packages
 	# Install cli package to get flocker-ca command
-	${SUDO} yum -y install ${branch_opt} clusterhq-flocker-cli clusterhq-flocker-node
+	${SUDO} yum -y install ${branch_opt} clusterhq-flocker-node
 
 	# Turn off SELinux if enabled
 	if [ -r /etc/selinux/config ]; then
@@ -102,18 +102,19 @@ EOF
 
 	# Unauthenticated packages need --force-yes
 	# Install cli package to get flocker-ca command
-	${SUDO} apt-get -y --force-yes install clusterhq-flocker-cli clusterhq-flocker-node
+	${SUDO} apt-get -y --force-yes install clusterhq-flocker-node
 	;;
 esac
 
 # Install node certificates
-flocker-ca create-node-certificate
 ${SUDO} mkdir -p /etc/flocker
 ${SUDO} chmod u=rwX,g=,o= /etc/flocker
-${SUDO} cp cluster.crt /etc/flocker/cluster.crt
-${SUDO} mv *[0-9a-f].crt /etc/flocker/node.crt
-${SUDO} mv *[0-9a-f].key /etc/flocker/node.key
-${SUDO} chmod 600 /etc/flocker/node.key
+${SUDO} mv cluster.crt /etc/flocker/cluster.crt
+if [ -r node.crt ]; then
+	${SUDO} mv node.crt /etc/flocker/node.crt
+	${SUDO} mv node.key /etc/flocker/node.key
+	${SUDO} chmod 600 /etc/flocker/node.key
+fi
 
 case "${FLOCKER_BACKEND}" in
 zfs)

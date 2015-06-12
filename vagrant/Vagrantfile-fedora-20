@@ -48,6 +48,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, :path => "install-1.sh", :privileged => false
   config.vm.provision :reload
-  config.vm.provision :shell, :path => "cert.sh", :privileged => false
+  if File.exists?("node.crt") do
+    config.vm.provision :file, source: "cluster.crt", destination: "cluster.crt"
+    config.vm.provision :file, source: "node.crt", destination: "node.crt"
+    config.vm.provision :file, source: "node.key", destination: "node.key"
+  fi
   config.vm.provision :shell, :path => "install-2.sh", :privileged => false
 end

@@ -52,7 +52,7 @@ do
 	    shift
 		;;
 	*)
-	    echo "Usage: $script [ --control ] [ --no-agent ] [ --master <control-node-ip> ]" >&2
+	    echo "Usage: $script [ --os <opsys> ] [ --control ] [ --no-agent ] [ --master <control-node-ip> ]" >&2
 	    exit 1
 	    ;;
 	esac
