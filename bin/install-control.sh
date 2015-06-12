@@ -82,7 +82,7 @@ ${SUDO} chmod 600 /etc/flocker/control-service.key
 case "${OPSYS}" in
 centos-7 | fedora-20)
 	# Setup firewall
-	if [ "$(which firewall-cmd)" ]; then
+	if [ "$(which firewall-cmd)" -a "$(firewall-cmd --state)" = 'running' ]; then
 		${SUDO} firewall-cmd --add-service ssh --permanent
 		${SUDO} firewall-cmd --add-service flocker-control-api --permanent
 		${SUDO} firewall-cmd --add-service flocker-control-agent --permanent
