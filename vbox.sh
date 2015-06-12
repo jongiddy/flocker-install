@@ -16,6 +16,10 @@ tmpdir=/tmp/flocker.$$
 mkdir ${tmpdir}
 chmod 700 ${tmpdir}
 
+if [ "${FLOCKER_CONTROL_NODE}" -ne 0 -a -r control.txt ]; then
+    echo 'Run cluster_init.sh before setting up control node' >&2
+    exit 1
+fi
 if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
     flocker-ca create-node-certificate --outputpath=${tmpdir}
     mv ${tmpdir}/*.crt ${tmpdir}/node.crt
