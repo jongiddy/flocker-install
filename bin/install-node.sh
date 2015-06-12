@@ -132,6 +132,7 @@ zfs)
 	    ;;
 	esac
 	# ...as root user
+	${SUDO} [ -d ~root/.ssh ] || ${SUDO} mkdir ~root/.ssh
 	${SUDO} cp ~/.ssh/authorized_keys ~root/.ssh/authorized_keys
 	# Create a ZFS pool
 	${SUDO} mkdir -p /var/opt/flocker
