@@ -49,7 +49,7 @@ if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
     echo ${hostname} >> ${TOP}/agents.txt
 fi
 if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
-    echo ${ipaddr} > ${TOP}/control.txt
+    echo ${hostname} > ${TOP}/control.txt
     flocker-ca create-control-certificate --inputpath=${TOP} ${hostname}
     vagrant scp control-*.crt control-service.crt
     vagrant scp control-*.key control-service.key
