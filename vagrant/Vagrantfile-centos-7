@@ -12,6 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Disable /vagrant - not needed and expensive rsync with AWS
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
+  config.vm.provider :virtualbox do |vbox|
+    vbox.memory = 1024
+  end
+
   config.vm.provider :aws do |aws, override|
     # Use a dummy box and specify everything here in Vagrantfile
     override.vm.box = "dummy"

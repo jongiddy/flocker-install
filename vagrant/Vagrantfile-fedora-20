@@ -13,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider :virtualbox do |vbox, override|
+    vbox.memory = 1024
     override.vm.provision :shell, :path => "fixtty.sh", :privileged => true
   end
 
