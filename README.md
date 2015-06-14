@@ -33,22 +33,12 @@ instances.  To use Ubuntu 14.04, add `--os ubuntu-14.04`.
 To start the control node, add the flag `--control`.
 If the control node should not be an agent node, add `--no-agent`.
 
-On the control node, run:
-```
-install-control.sh [ <BRANCH> ]
-```
 
-where `<CONTROL-SERVICE-HOST>` is the external DNS or IP address of the control
-node, and `<BRANCH>` is an optional Flocker branch.
-If a branch is provided, the latest build of that branch will be installed.
+If a branch is provided using the ``--branch`` flag, the latest build of that
+branch will be installed.
 If no branch is provided, the latest release will be installed.
 
-On each node, run:
-```
-install-node.sh <CONTROL-SERVICE-HOST> [ <BACKEND> ] [ <BRANCH> ]
-```
-
-On the client, edit `run_tests.sh` to include the IP's of nodes and run:
+On the client, run:
 ```
 ./run-test.sh
 ```
