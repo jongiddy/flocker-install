@@ -52,3 +52,6 @@ On the client, edit `run_tests.sh` to include the IP's of nodes and run:
 ```
 ./run-test.sh
 ```
+
+For AWS, use the external address for the `flocker-deploy` command, but the
+internal IP addresses in the deployment file.
