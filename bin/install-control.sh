@@ -11,8 +11,7 @@ fi
 
 set -x
 
-CONTROL_HOST=$1
-FLOCKER_BRANCH=$2
+FLOCKER_BRANCH=$1
 
 source /etc/os-release
 

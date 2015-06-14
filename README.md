@@ -35,7 +35,7 @@ If the control node should not be an agent node, add `--no-agent`.
 
 On the control node, run:
 ```
-install-control.sh <CONTROL-SERVICE-HOST> [ <BRANCH> ]
+install-control.sh [ <BRANCH> ]
 ```
 
 where `<CONTROL-SERVICE-HOST>` is the external DNS or IP address of the control
