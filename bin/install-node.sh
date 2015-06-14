@@ -121,14 +121,15 @@ zfs)
 	# Ensure peer nodes can connect to ssh...
 	case "${OPSYS}" in
 	centos-7 | fedora-20)
-		${SUDO} yum install -y firewalld
-		${SUDO} systemctl enable firewalld
-		${SUDO} systemctl start firewalld
-		${SUDO} firewall-cmd --add-service ssh --permanent
-		${SUDO} firewall-cmd --reload
+		if [ "$(which firewall-cmd)" -a "$(firewall-cmd --state)" = 'running' ]; then
+			${SUDO} firewall-cmd --add-service ssh --permanent
+			${SUDO} firewall-cmd --reload
+		fi
 		;;
 	ubuntu-14.04)
-	    ${SUDO} ufw allow ssh
+		if [ "$(which ufw)" ]; then
+	    	${SUDO} ufw allow ssh
+	    fi
 	    ;;
 	esac
 	# ...as root user

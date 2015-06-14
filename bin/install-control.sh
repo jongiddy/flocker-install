@@ -83,7 +83,6 @@ case "${OPSYS}" in
 centos-7 | fedora-20)
 	# Setup firewall
 	if [ "$(which firewall-cmd)" -a "$(firewall-cmd --state)" = 'running' ]; then
-		${SUDO} firewall-cmd --add-service ssh --permanent
 		${SUDO} firewall-cmd --add-service flocker-control-api --permanent
 		${SUDO} firewall-cmd --add-service flocker-control-agent --permanent
 		${SUDO} firewall-cmd --reload
@@ -99,7 +98,6 @@ ubuntu-14.04)
     echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /tmp/services
     ${SUDO} cp /tmp/services /etc/services
     if [ "$(which ufw)" ]; then
-	    ${SUDO} ufw allow ssh
 	    ${SUDO} ufw allow flocker-control-api
 	    ${SUDO} ufw allow flocker-control-agent
 	fi
