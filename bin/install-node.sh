@@ -126,8 +126,8 @@ zfs)
 			${SUDO} firewall-cmd --reload
 		fi
 		;;
-	ubuntu-14.04)
-		if [ "$(which ufw)" ]; then
+	ubuntu-14.04 | ubuntu-15.04)
+    	if [ "$(which ufw)" -a "$(ufw status)" != 'Status: inactive' ]; then
 	    	${SUDO} ufw allow ssh
 	    fi
 	    ;;
