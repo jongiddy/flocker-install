@@ -44,7 +44,7 @@ vagrant up --provider=aws
 
 aws_id=$(cat .vagrant/machines/default/aws/id)
 hostname=$(aws ec2 describe-instances --instance-ids ${aws_id} | sed -n -e 's/ *"PublicDnsName": "\([^"]*\)",/\1/p' | head -1)
-echo "Flocker Node address: ${hostname}"
+
 if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
     echo ${hostname} > ${TOP}/control.txt
     flocker-ca create-control-certificate --inputpath=${TOP} ${hostname}
@@ -61,6 +61,8 @@ if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
     vagrant ssh -- flocker-install/bin/install-node.sh ${FLOCKER_CONTROL_ADDR} ${FLOCKER_BACKEND} ${FLOCKER_BRANCH}
     echo ${hostname} >> ${TOP}/agents.txt
 fi
+
+echo "Flocker Node address: ${hostname}"
 
 connect=0
 while [ "${connect}" -eq 0 ]; do
