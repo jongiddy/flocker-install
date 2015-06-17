@@ -20,4 +20,4 @@ flocker-ca initialize mycluster
 flocker-ca create-api-certificate user
 
 # Clear the control and agent hostname files
-rm -f control.txt agents.txt
+rm -f control.txt agents.txt agent-map.txt

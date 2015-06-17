@@ -60,6 +60,7 @@ if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
     FLOCKER_CONTROL_ADDR=`cat ${TOP}/control.txt`
     vagrant ssh -- flocker-install/bin/install-node.sh ${FLOCKER_CONTROL_ADDR} ${FLOCKER_BACKEND} ${FLOCKER_BRANCH}
     echo ${hostname} >> ${TOP}/agents.txt
+    echo '"'"${hostname}"'": "'"${hostname}"'"' >> ${TOP}/agent-map.txt
 fi
 
 echo "Flocker Node IP address: ${hostname}"

@@ -43,7 +43,8 @@ vagrant plugin list | grep -q vagrant-reload || vagrant plugin install vagrant-r
 vagrant up --provider=aws
 
 aws_id=$(cat .vagrant/machines/default/aws/id)
-hostname=$(aws ec2 describe-instances --instance-ids ${aws_id} | sed -n -e 's/ *"PublicDnsName": "\([^"]*\)",/\1/p' | head -1)
+hostname=$(aws ec2 describe-instances --instance-ids ${aws_id} | sed -n -e 's/ *"PublicDnsName": "\([^"]*\)",/\1/p' | head -1 | xargs)
+private_ip=$(aws ec2 describe-instances --instance-ids ${aws_id} | sed -n -e 's/ *"PrivateIpAddress": "\([^"]*\)",/\1/p' | head -1 | xargs)
 
 if [ "${FLOCKER_CONTROL_NODE}" -ne 0 ]; then
     echo ${hostname} > ${TOP}/control.txt
@@ -60,6 +61,7 @@ if [ "${FLOCKER_AGENT_NODE}" -ne 0 ]; then
     FLOCKER_CONTROL_ADDR=`cat ${TOP}/control.txt`
     vagrant ssh -- flocker-install/bin/install-node.sh ${FLOCKER_CONTROL_ADDR} ${FLOCKER_BACKEND} ${FLOCKER_BRANCH}
     echo ${hostname} >> ${TOP}/agents.txt
+    echo '"'"${private_ip}"'": "'"${hostname}"'"' >> ${TOP}/agent-map.txt
 fi
 
 echo "Flocker Node address: ${hostname}"
