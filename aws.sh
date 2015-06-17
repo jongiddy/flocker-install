@@ -39,6 +39,8 @@ cd ${tmpdir}
 vagrant plugin list | grep -q vagrant-aws || vagrant plugin install vagrant-aws
 # If not installed, install the vagrant-reload plugin
 vagrant plugin list | grep -q vagrant-reload || vagrant plugin install vagrant-reload
+# If not installed, install the vagrant-scp plugin
+vagrant plugin list | grep -q vagrant-scp || vagrant plugin install vagrant-scp
 
 vagrant up --provider=aws
 
