@@ -1,6 +1,10 @@
 # flocker-install
 Installation scripts for Flocker
 
+**NOTE:** These script are mainly used for testing.
+They are regularly out-of-date (or in some cases more up-to-date than the official release).
+Please check the [Flocker Documentation](https://docs.clusterhq.com) for the instructions for the current release.
+
 The user account on the remote systems must be logged in as a user who has root
 access. If these scripts are run non-interactively, sudo access must be
 passwordless.
