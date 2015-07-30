@@ -9,9 +9,6 @@ The user account on the remote systems must be logged in as a user who has root
 access. If these scripts are run non-interactively, sudo access must be
 passwordless.
 
-Note, these scripts cheat on the certificate creation by copying the CA private
-key to each node.  Do not do this in production!
-
 ## AWS
 
 To use AWS, copy the file `secrets.sh.example` to `secrets.sh` and fill in the
