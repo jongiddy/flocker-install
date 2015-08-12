@@ -96,7 +96,7 @@ ubuntu-14.04 | ubuntu-15.04)
 	echo 'flocker-control-api\t4523/tcp\t\t\t# Flocker Control API port' >> /tmp/services
     echo 'flocker-control-agent\t4524/tcp\t\t\t# Flocker Control Agent port' >> /tmp/services
     ${SUDO} cp /tmp/services /etc/services
-    if [ "$(which ufw)" -a "$(ufw status)" != 'Status: inactive' ]; then
+    if [ "$(which ufw)" -a "$(${SUDO} ufw status)" != 'Status: inactive' ]; then
 	    ${SUDO} ufw allow flocker-control-api
 	    ${SUDO} ufw allow flocker-control-agent
 	fi

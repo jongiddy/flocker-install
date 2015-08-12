@@ -127,7 +127,7 @@ zfs)
 		fi
 		;;
 	ubuntu-14.04 | ubuntu-15.04)
-    	if [ "$(which ufw)" -a "$(ufw status)" != 'Status: inactive' ]; then
+    	if [ "$(which ufw)" -a "$(${SUDO} ufw status)" != 'Status: inactive' ]; then
 	    	${SUDO} ufw allow ssh
 	    fi
 	    ;;
