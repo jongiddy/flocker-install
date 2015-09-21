@@ -105,7 +105,7 @@ EOF
 	# Install cli package to get flocker-ca command
 	${SUDO} apt-get -y --force-yes install clusterhq-flocker-node
 
-	${SUDO} apt-get install docker.io
+	${SUDO} apt-get -y install docker.io
 	;;
 esac
 
