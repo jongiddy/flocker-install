@@ -124,7 +124,7 @@ zfs)
 	# Ensure peer nodes can connect to ssh...
 	case "${OPSYS}" in
 	centos-7 | fedora-20)
-		if [ "$(which firewall-cmd)" -a "$(firewall-cmd --state)" = 'running' ]; then
+		if [ "$(which firewall-cmd)" -a "$(${SUDO} firewall-cmd --state)" = 'running' ]; then
 			${SUDO} firewall-cmd --add-service ssh --permanent
 			${SUDO} firewall-cmd --reload
 		fi
