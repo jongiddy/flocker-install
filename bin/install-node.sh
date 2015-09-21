@@ -141,7 +141,7 @@ zfs)
 	# Create a ZFS pool
 	${SUDO} mkdir -p /var/opt/flocker
 	${SUDO} truncate --size 10G /var/opt/flocker/pool-vdev
-	${SUDO} zpool create flocker /var/opt/flocker/pool-vdev
+	${SUDO} ZFS_MODULE_LOADING=yes zpool create flocker /var/opt/flocker/pool-vdev
 	;;
 esac
 
