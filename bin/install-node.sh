@@ -65,6 +65,7 @@ EOF
 		${SUDO} sed --in-place='.preflocker' 's/^SELINUX=.*$/SELINUX=disabled/g' /etc/selinux/config
 	fi
 
+	${SUDO} yum -y install docker
 	${SUDO} systemctl enable docker.service
 	${SUDO} systemctl start docker.service
 	;;
@@ -103,6 +104,8 @@ EOF
 	# Unauthenticated packages need --force-yes
 	# Install cli package to get flocker-ca command
 	${SUDO} apt-get -y --force-yes install clusterhq-flocker-node
+
+	${SUDO} apt-get install docker.io
 	;;
 esac
 
